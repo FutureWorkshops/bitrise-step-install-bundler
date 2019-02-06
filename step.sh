@@ -120,5 +120,5 @@ if [[ -f $gemfile_path ]]; then
 		echo_done "Current Bundler follows Gemfile"
 	fi
 else
-	echo_done "No Gemfile to match version"
+	echo_done "No Gemfile to match version."
 fi
