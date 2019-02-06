@@ -104,6 +104,9 @@ if [[ -f $gemfile_path ]]; then
 		echo_info "Gemfile expected version: ${GEM_BUNDLER_VERSION}"
 		echo_info "Current reported version: ${CURRENT_BUNDLER_VERSION}"
 
+        echo_info "Uninstalling current bundler"
+        gem uninstall bundler --force
+
 		echo_info "Installing bundler, version ${GEM_BUNDLER_VERSION}"
 		gem install bundler -v=$GEM_BUNDLER_VERSION --force
 
@@ -114,10 +117,10 @@ if [[ -f $gemfile_path ]]; then
             bundle check
 			echo_done "Updated bundler to version: ${GEM_BUNDLER_VERSION}"
 		else
-			echo_fail "Failed to update version: $(bunlde --version)"
+			echo_fail "Failed to update version: $(bundle --version)"
 		fi
 	else
-		echo_done "Current Bundler follows Gemfile"
+		echo_done "Current Bundler [$(bundle --version)] follows Gemfile [${GEM_BUNDLER_VERSION}]"
 	fi
 else
 	echo_done "No Gemfile to match version."

@@ -20,7 +20,7 @@ workflows:
         description: ''
         run_if: true
         inputs:
-        - gemfile_path: './test/Gemfile.lock'
+        - gemfile_path: './Gemfile.lock'
           
   # ----------------------------------------------------------------
   # --- workflows to Share this step into a Step Library
