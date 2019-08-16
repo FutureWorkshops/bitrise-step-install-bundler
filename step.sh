@@ -94,7 +94,7 @@ if [[ -f Gemfile.lock ]]; then
 		echo_info "Current reported version: ${CURRENT_BUNDLER_VERSION}"
 
         	echo_info "Uninstalling current bundler"
-        	gem uninstall bundler --force
+        	gem uninstall bundler --force --executables
 
 		echo_info "Installing bundler, version ${GEM_BUNDLER_VERSION}"
 		gem install bundler -v=$GEM_BUNDLER_VERSION --force
