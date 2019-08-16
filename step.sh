@@ -78,47 +78,28 @@ function validate_required_input_with_options {
 #
 # Validate parameters
 echo_info "Configs:"
-echo_details "* gemfile_path: ${gemfile_path}"
+echo_details "* gemfilelock_dir: ${gemfilelock_dir}"
 echo
 
-validate_required_input "gemfile_path" $gemfile_path
+validate_required_input "gemfilelock_dir" $gemfilelock_dir
 
-set +e
+cd "$gemfilelock_dir"
 
-bundle install
-
-if [[ $? -eq 0 ]]; then
-    echo_info "Current bundle can be used to handle the project"
-    exit 0
-else
-	echo_info "Current bundler can't be used to run this project. Updating..."
-fi
-
-set -e
-
-if [[ -f $gemfile_path ]]; then
-	GEM_BUNDLER_VERSION=$(grep -A1 -E -i -w '(BUNDLED WITH){1,1}' $gemfile_path | grep -E -i -w "[0-9\.]{1,}" | xargs)
+if [[ -f Gemfile.lock ]]; then
+	GEM_BUNDLER_VERSION=$(grep -A1 -E -i -w '(BUNDLED WITH){1,1}' Gemfile.lock | grep -E -i -w "[0-9\.]{1,}" | xargs)
 	CURRENT_BUNDLER_VERSION=$(bundle --version | grep -o -E -i -w "[0-9\.]{1,}" | xargs)
 
 	if [[ $GEM_BUNDLER_VERSION != $CURRENT_BUNDLER_VERSION ]]; then
 		echo_info "Gemfile expected version: ${GEM_BUNDLER_VERSION}"
 		echo_info "Current reported version: ${CURRENT_BUNDLER_VERSION}"
 
-        echo_info "Uninstalling current bundler"
-        gem uninstall bundler --force
+        	echo_info "Uninstalling current bundler"
+        	gem uninstall bundler --force
 
 		echo_info "Installing bundler, version ${GEM_BUNDLER_VERSION}"
 		gem install bundler -v=$GEM_BUNDLER_VERSION --force
 
-        echo_info "Configuring environment"
-        bundle install
-
-		if [[ "$(bundle --version | grep -o -E -i -w "[0-9\.]{1,}" | xargs)" == $GEM_BUNDLER_VERSION ]]; then
-            bundle check
-			echo_done "Updated bundler to version: ${GEM_BUNDLER_VERSION}"
-		else
-			echo_fail "Failed to update version: $(bundle --version)"
-		fi
+		echo_done "Updated bundler to version: ${GEM_BUNDLER_VERSION}"
 	else
 		echo_done "Current Bundler [$(bundle --version)] follows Gemfile [${GEM_BUNDLER_VERSION}]"
 	fi

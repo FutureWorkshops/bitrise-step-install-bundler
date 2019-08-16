@@ -17,11 +17,11 @@ is_skippable: false
 deps:
 run_if: ""
 inputs:
-  - gemfile_path: './Gemfile.lock'
+  - gemfilelock_dir: './'
     opts:
-      title: "Path to the Gemfile lock"
-      summary: "Gemfile lock that will be used to base the bundler version"
-      description: "Gemfile lock that will be used to base the bundler version"
+      title: "Gemfile lock directory"
+      summary: "Directory where the Gemfile lock is located"
+      description: "Directory where the Gemfile lock is located"
       is_expand: true
       is_required: true
 
