@@ -77,16 +77,21 @@ function validate_required_input_with_options {
 
 #
 # Validate parameters
+
+if [[ -z "${gemfile_path}" && ! -z "${gemfilelock_dir}" ]]; then
+    echo "Updating gemfile_path using ${gemfilelock_dir} as base path"
+    gemfile_path="${gemfilelock_dir}/Gemfile.lock"
+fi
+
 echo_info "Configs:"
 echo_details "* gemfilelock_dir: ${gemfilelock_dir}"
+echo_details "* gemfile_path: ${gemfile_path}"
 echo
 
-validate_required_input "gemfilelock_dir" $gemfilelock_dir
+validate_required_input "gemfile_path" $gemfile_path
 
-cd "$gemfilelock_dir"
-
-if [[ -f Gemfile.lock ]]; then
-	GEM_BUNDLER_VERSION=$(grep -A1 -E -i -w '(BUNDLED WITH){1,1}' Gemfile.lock | grep -E -i -w "[0-9\.]{1,}" | xargs)
+if [[ -f "${gemfile_path}" ]]; then
+	GEM_BUNDLER_VERSION=$(grep -A1 -E -i -w '(BUNDLED WITH){1,1}' "${gemfile_path}" | grep -E -i -w "[0-9\.]{1,}" | xargs)
 	CURRENT_BUNDLER_VERSION=$(bundle --version | grep -o -E -i -w "[0-9\.]{1,}" | xargs)
 
 	if [[ $GEM_BUNDLER_VERSION != $CURRENT_BUNDLER_VERSION ]]; then

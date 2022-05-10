@@ -13,16 +13,24 @@ type_tags:
 is_requires_admin_user: true
 is_always_run: false
 is_skippable: false
-deps:
+deps: {}
 run_if: ""
 inputs:
-  - gemfilelock_dir: './'
+  - gemfile_path: ./Gemfile.lock
     opts:
-      title: "Gemfile lock directory"
-      summary: "Directory where the Gemfile lock is located"
-      description: "Directory where the Gemfile lock is located"
+      description: Gemfile lock that will be used to base the bundler version
       is_expand: true
       is_required: true
+      summary: Gemfile lock that will be used to base the bundler version
+      title: Path to the Gemfile lock
+  - gemfilelock_dir: './'
+    opts:
+      title: "Gemfile lock directory (Deprecated)"
+      summary: "Directory where the Gemfile lock is located (Deprecated)"
+      description: "Directory where the Gemfile lock is located (Deprecated)"
+      is_expand: true
+      is_required: false
+      category: Deprecated
 
-outputs:
+outputs: []
  

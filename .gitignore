@@ -1,0 +1,4 @@
+.bitrise*
+.gows.user.yml
+_tmp/.build
+*.xcresult
