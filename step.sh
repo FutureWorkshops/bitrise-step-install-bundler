@@ -106,8 +106,12 @@ if [[ -f "${gemfile_path}" ]]; then
 
 		echo_done "Updated bundler to version: ${GEM_BUNDLER_VERSION}"
 	else
-		echo_done "Current Bundler [$(bundle --version)] follows Gemfile [${GEM_BUNDLER_VERSION}]"
+		echo_info "Current Bundler [$(bundle --version)] follows Gemfile [${GEM_BUNDLER_VERSION}]"
 	fi
+    echo_info "Applying Gemfile structure"
+    bundle
+
+    echo_done "Installed Bundler and dependencies"
 else
 	echo_done "No Gemfile to match version."
 fi
